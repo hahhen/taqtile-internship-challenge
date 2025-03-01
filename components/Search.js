@@ -120,6 +120,21 @@ const List = styled.FlatList`
   flex-grow: 0;
 `
 
+const Logo1 = styled.Image`
+  width: 52px;
+  height: 48px;
+`
+
+const Logo2 = styled.Image`
+  width: 156px;
+  height: 48px;
+`
+
+const Thumb = styled.Image`
+  width: 120px;
+  height: 45px;
+`
+
 export function Search() {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
@@ -165,8 +180,8 @@ export function Search() {
     <FullSizeView>
       <FlexGrowView>
         <Logo>
-          <Image width={52} height={48} source={{ uri: "https://www.cheapshark.com/img/logo_image.png?v=1.0" }} />
-          <Image width={156} height={48} source={{ uri: "https://www.cheapshark.com/img/logo_text.png?v=1.0" }} />
+          <Logo1 source={{ uri: "https://www.cheapshark.com/img/logo_image.png?v=1.0" }} />
+          <Logo2 source={{ uri: "https://www.cheapshark.com/img/logo_text.png?v=1.0" }} />
         </Logo>
         <Header>
           <Input value={title} onChangeText={setTitle} placeholder="Buscar por título" />
@@ -209,7 +224,7 @@ export function Search() {
               <GameTitle>{item.title}</GameTitle>
               <SpaceBetween>
                 <FlexView>
-                  <Image width={120} height={45} source={{ uri: item.thumb }} />
+                  <Thumb source={{ uri: item.thumb }} />
                   <MetaCritic style={
                     {
                       backgroundColor: item.metacriticScore > 74 ? '#2C9049' : item.metacriticScore > 49 ? '#E4A10D' : '#AC1717'
