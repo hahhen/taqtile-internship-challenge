@@ -3,7 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 // You can import from local files
 import { Search } from './components/Search';
 // or any pure javascript modules available in npm
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { OpenSans_400Regular, OpenSans_600SemiBold, OpenSans_700Bold, useFonts } from '@expo-google-fonts/open-sans';
 import { StatusBar } from 'expo-status-bar';
 import styled from 'styled-components/native';
@@ -32,9 +32,11 @@ export default function App() {
   }
   return (
     <>
-      <FlexSafeAreaView>
-        <Search />
-      </FlexSafeAreaView>
+      <SafeAreaProvider>
+        <FlexSafeAreaView>
+          <Search />
+        </FlexSafeAreaView>
+      </SafeAreaProvider>
       <StatusBar backgroundColor='#38344E' style="light" />
     </>
   );

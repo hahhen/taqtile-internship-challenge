@@ -1,9 +1,8 @@
-import { ActivityIndicator, Image} from 'react-native';
+import { ActivityIndicator, Image, RefreshControl } from 'react-native';
 import styled from 'styled-components/native'
 import { useEffect, useState } from 'react';
 
 //Styled components
-
 const Input = styled.TextInput`
   width: 100%;
   border-radius: 4px;
@@ -121,9 +120,10 @@ const List = styled.FlatList`
   flex-grow: 0;
 `
 
-export function Search(props) {
+export function Search() {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
+  const [pageState, setPageState] = useState(0);
 
   //Search filters
   const [title, setTitle] = useState("");
@@ -131,16 +131,28 @@ export function Search(props) {
   const [maxPrice, setMaxPrice] = useState("");
 
   //Async API fetch function
-  async function fetchGames() {
-    const res = await fetch(`https://www.cheapshark.com/api/1.0/deals?storeID=1&${title && `title=${title}`}${minPrice && `&lowerPrice=${minPrice}`}${maxPrice && `&upperPrice=${maxPrice}`}`)
+  async function fetchGames(page = "") {
+    const res = await fetch(
+      `https://www.cheapshark.com/api/1.0/deals?storeID=1
+      ${title && `&title=${title}`}
+      ${minPrice && `&lowerPrice=${minPrice}`}
+      ${maxPrice && `&upperPrice=${maxPrice}`}
+      ${page && `&pageNumber=${page}`}`
+    )
     const data = await res.json()
-    setList(data);
+    if (page) {
+      setList([...list, ...data]);
+    }
+    else {
+      setList(data);
+      setPageState(0);
+    }
   }
 
   //Set loading while fetching the API function
-  function searchGames() {
+  function searchGames(page = "") {
     setLoading(true);
-    fetchGames();
+    fetchGames(page);
     setLoading(false);
   }
 
@@ -178,6 +190,20 @@ export function Search(props) {
         :
         <List
           data={list}
+          onEndReached={() => {
+            //Infinite scroll
+            setPageState(pageState + 1)
+            searchGames(pageState)
+          }}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={() => {
+            //Loading spinner on infinite scroll
+            if (!loading) return null;
+            return (
+              <ActivityIndicator size={'large'} />
+            );
+          }}
+          refreshControl={<RefreshControl refreshing={loading} onRefresh={() => searchGames()} />}
           renderItem={({ item }) => (
             <Game>
               <GameTitle>{item.title}</GameTitle>
