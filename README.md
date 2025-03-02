@@ -1,5 +1,24 @@
 # Game Deals - Taqtile Challenge
 
+## Edit
+
+Source code available at https://github.com/hahhen/taqtile-internship-challenge/
+
+References:
+https://docs.expo.dev/develop/user-interface/safe-areas/
+https://styled-components.com/docs/basics#react-native
+https://apidocs.cheapshark.com/#b9b738bf-2916-2a13-e40d-d05bccdce2ba
+https://docs.expo.dev/develop/user-interface/fonts/#use-google-fonts
+https://www.cheapshark.com/
+https://docs.expo.dev/guides/configuring-statusbar/#androidstatusbarbackgroundcolor
+https://reactnative.dev/docs/image
+https://blog.rocketseat.com.br/scroll-infinito-no-react-native/
+https://reactnative.dev/docs/flatlist
+https://stackoverflow.com/questions/54564136/react-native-flatlist-extending-beyond-screen-when-rendered-with-a-header
+https://metacritichelp.zendesk.com/hc/en-us/articles/15456077802647-What-s-with-these-green-yellow-and-red-colors
+https://legacy.reactjs.org/docs/conditional-rendering.html
+https://stackoverflow.com/questions/58382662/image-not-displaying-in-web-view-of-snack-expo-io
+
 ## About
 
 This project is an simplified Steam game deal tracker. Your task is to implement this project using data from a Rest API.
