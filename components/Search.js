@@ -149,11 +149,11 @@ export function Search() {
   //Async API fetch function
   async function fetchGames(page = 0) {
     const res = await fetch(
-      `https://www.cheapshark.com/api/1.0/deals?storeID=1
-      ${title && `&title=${title}`}
-      ${minPrice && `&lowerPrice=${minPrice}`}
-      ${maxPrice && `&upperPrice=${maxPrice}`}
-      &pageNumber=${page}`
+      `https://www.cheapshark.com/api/1.0/deals?storeID=1` +
+      `${title && `&title=${title}`}` +
+      `${minPrice && `&lowerPrice=${minPrice}`}` +
+      `${maxPrice && `&upperPrice=${maxPrice}`}` +
+      `&pageNumber=${page}`
     )
     const data = await res.json();
     if (page > 0) {
@@ -197,10 +197,10 @@ export function Search() {
               <Input value={maxPrice} onChangeText={setMaxPrice} />
             </FullSizeView>
           </FlexView>
-          <PrimaryButton onPress={() => { 
+          <PrimaryButton onPress={() => {
             listRef.current.scrollToOffset({ animated: false, offset: 0 });
             searchGames();
-            }}>
+          }}>
             <ButtonText>Mostrar resultados</ButtonText>
           </PrimaryButton>
         </Header>
@@ -211,10 +211,10 @@ export function Search() {
         <List
           ref={listRef}
           data={list}
-          
+
           //Infinite scroll
           onEndReached={() => {
-            searchGames(pageState+1);
+            searchGames(pageState + 1);
           }}
           onEndReachedThreshold={0.1}
 
