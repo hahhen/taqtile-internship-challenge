@@ -146,26 +146,27 @@ export function Search() {
   const [maxPrice, setMaxPrice] = useState("");
 
   //Async API fetch function
-  async function fetchGames(page = "") {
+  async function fetchGames(page = 0) {
     const res = await fetch(
       `https://www.cheapshark.com/api/1.0/deals?storeID=1
       ${title && `&title=${title}`}
       ${minPrice && `&lowerPrice=${minPrice}`}
       ${maxPrice && `&upperPrice=${maxPrice}`}
-      ${page && `&pageNumber=${page}`}`
+      &pageNumber=${page}`
     )
     const data = await res.json()
-    if (page) {
+    if (page > 0) {
       setList([...list, ...data]);
+      setPageState(page);
     }
     else {
+      setPageState(page);
       setList(data);
-      setPageState(0);
     }
   }
 
   //Set loading while fetching the API function
-  function searchGames(page = "") {
+  function searchGames(page = 0) {
     setLoading(true);
     fetchGames(page);
     setLoading(false);
@@ -205,20 +206,24 @@ export function Search() {
         :
         <List
           data={list}
+          
+          //Infinite scroll
           onEndReached={() => {
-            //Infinite scroll
-            setPageState(pageState + 1)
-            searchGames(pageState)
+            searchGames(pageState+1)
           }}
           onEndReachedThreshold={0.1}
+
+          //Loading spinner on infinite scroll
           ListFooterComponent={() => {
-            //Loading spinner on infinite scroll
             if (!loading) return null;
             return (
               <ActivityIndicator size={'large'} />
             );
           }}
+
+          //Pull to refresh
           refreshControl={<RefreshControl refreshing={loading} onRefresh={() => searchGames()} />}
+
           renderItem={({ item }) => (
             <Game>
               <GameTitle>{item.title}</GameTitle>
