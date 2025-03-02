@@ -198,7 +198,7 @@ export function Search() {
             </FullSizeView>
           </FlexView>
           <PrimaryButton onPress={() => { 
-            listRef.current.scrollToOffset({ animated: true, offset: 0 });
+            listRef.current.scrollToOffset({ animated: false, offset: 0 });
             searchGames();
             }}>
             <ButtonText>Mostrar resultados</ButtonText>
