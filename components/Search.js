@@ -1,6 +1,6 @@
 import { ActivityIndicator, Image, RefreshControl } from 'react-native';
 import styled from 'styled-components/native'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 //Styled components
 const Input = styled.TextInput`
@@ -139,6 +139,7 @@ export function Search() {
   const [loading, setLoading] = useState(true);
   const [list, setList] = useState([]);
   const [pageState, setPageState] = useState(0);
+  const listRef = useRef();
 
   //Search filters
   const [title, setTitle] = useState("");
@@ -154,7 +155,7 @@ export function Search() {
       ${maxPrice && `&upperPrice=${maxPrice}`}
       &pageNumber=${page}`
     )
-    const data = await res.json()
+    const data = await res.json();
     if (page > 0) {
       setList([...list, ...data]);
       setPageState(page);
@@ -196,7 +197,10 @@ export function Search() {
               <Input value={maxPrice} onChangeText={setMaxPrice} />
             </FullSizeView>
           </FlexView>
-          <PrimaryButton onPress={() => { searchGames() }}>
+          <PrimaryButton onPress={() => { 
+            listRef.current.scrollToOffset({ animated: true, offset: 0 });
+            searchGames();
+            }}>
             <ButtonText>Mostrar resultados</ButtonText>
           </PrimaryButton>
         </Header>
@@ -205,11 +209,12 @@ export function Search() {
         <ActivityIndicator size={'large'} />
         :
         <List
+          ref={listRef}
           data={list}
           
           //Infinite scroll
           onEndReached={() => {
-            searchGames(pageState+1)
+            searchGames(pageState+1);
           }}
           onEndReachedThreshold={0.1}
 
